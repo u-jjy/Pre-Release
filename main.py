@@ -261,9 +261,11 @@ for ticket in ticketsWanted:
     totalCost += ticketPrices[tickets.index(ticket)][numOfDays - 1]
     if ticket != 'Family':
         for attraction in attractionsWanted:
-            pass
-    elif ticket == 'Family':w
-        pass
+            totalCost += attPrices[attractions.index(attraction)]
+if numOfPeopleInFamily:
+    for person in range(numOfPeopleInFamily):
+        for attraction in attractionsWanted:
+            totalCost += attPrices[attractions.index(attraction)]
 
 if numOfPeople:
     ticketsWanted.append('Group')
@@ -284,7 +286,7 @@ if validOrder:
 
     print(f'\n\nTotal cost: ${totalCost} and your booking number is: {bookingNum}')
 
-if not validOrder:
+else:
     print('This booking is invalid. Please retry your booking.')
 
 # TODO add attraction prices accordingly (per person)
