@@ -29,6 +29,12 @@ global numOfPeople
 numOfPeople = None
 global numOfPeopleInFamily
 numOfPeopleInFamily = 0
+global numOfAdultsInGroup
+global numOfChildrenInGroup
+global numOfSeniorsInGroup
+numOfAdultsInGroup = None
+numOfSeniorsInGroup = None
+numOfChildrenInGroup = None
 while not Done:
 
     ticket1 = None
@@ -104,14 +110,53 @@ while not Done:
         numOfPeopleInFamily += numOfAdults + numOfSeniors + numOfChildren
 
     elif ticket1 == 'group':
-        while not numOfPeople:
-            try:
-                numOfPeople = int(input('How many people will be part of this group ticket?'))
-            except ValueError:
-                numOfPeople = None
-                print('Please input an integer value.')
+        groupDone = False
+        while not groupDone:
+            while numOfAdultsInGroup == None:
+                try:
+                    numOfAdultsInGroup = int(input('How many adults will be part of this ticket? Note - This does not mean seniors\n'))
+                except ValueError:
+                    numOfAdultsInGroup = None
+                    print('Please enter a positive integer value.')
+                if numOfAdultsInGroup < 0:
+                    numOfAdultsInGroup = None
+                    print('You cannot have less than 0 adults. Please enter a positive integer.')
 
+            while numOfSeniorsInGroup == None:
+                try:
+                    numOfSeniorsInGroup = int(input('How many seniors will be part of this ticket?\n'))
+                except ValueError:
+                    numOfSeniorsInGroup = None
+                    print('Please enter a positive integer value.')
+                if numOfSeniorsInGroup < 0:
+                    numOfSeniorsInGroup = None
+                    print('You cannot have less than 0 seniors. Please enter a positive integer.')
 
+            while not numOfChildrenInGroup:
+                try:
+                    numOfChildrenInGroup = int(input('How many children will be part of this ticket?\n'))
+                except ValueError:
+                    numOfChildrenInGroup = None
+                    print('Please enter a positive integer value.')
+                if numOfChildrenInGroup < 0:
+                    numOfChildrenInGroup = None
+                    print('You cannot have less than 0 children. Please enter a positive integer.')
+
+            numOfPeople += numOfAdultsInGroup + numOfSeniorsInGroup + numOfChildrenInGroup
+            if numOfPeople < 6:
+                numOfAdultsInGroup = None
+                numOfSeniorsInGroup = None
+                numOfChildrenInGroup = None
+                print('This group ticket is not valid, please try again.')
+                groupDone = False
+            else:
+                for i in range(numOfAdultsInGroup):
+                    ticketsWanted.append('One adult')
+                for i in range(numOfSeniorsInGroup):
+                    ticketsWanted.append('One senior')
+                for i in range(numOfChildrenInGroup):
+                    ticketsWanted.append('One child')
+                    groupDone = True
 
     isDone = None
     while not isDone:
@@ -256,6 +301,10 @@ for i in range(floor(seniorCount/2)):
 
 # TODO need to account for attractions here using attractionsWanted
 # TODO use the num of adults, children and seniors in the first loop to add attraction prices for family tickets
+# TODO global num of adults, children and seniors in group to then add cost as group tickets but then remove them from the ticketsWanted list before second cost loop runs
+    # numOfPeople = adults + children + seniors
+# TODO add to the algorithm to take all remaining tickets and just turn them into group if possible? may be the best way to do this, or at least get close, but does not offer absolute best prices.
+
 totalCost = 0
 for ticket in ticketsWanted:
     totalCost += ticketPrices[tickets.index(ticket)][numOfDays - 1]
