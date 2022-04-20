@@ -25,8 +25,6 @@ ticketsWanted = []
 attractionsWanted = []
 totalCost = 0
 Done = False
-global numOfPeople
-numOfPeople = None
 global numOfPeopleInFamily
 numOfPeopleInFamily = 0
 global numOfAdultsInGroup
@@ -142,7 +140,7 @@ while not Done:
                     numOfChildrenInGroup = None
                     print('You cannot have less than 0 children. Please enter a positive integer.')
 
-            numOfPeople += numOfAdultsInGroup + numOfSeniorsInGroup + numOfChildrenInGroup
+            numOfPeople = numOfAdultsInGroup + numOfSeniorsInGroup + numOfChildrenInGroup
             if numOfPeople < 6:
                 numOfAdultsInGroup = None
                 numOfSeniorsInGroup = None
@@ -299,11 +297,23 @@ for i in range(floor(seniorCount/2)):
 
         ticketsWanted.append('Family')
 
-# TODO need to account for attractions here using attractionsWanted
+num = 0
+for ticket in ticketsWanted:
+    if ticket != 'Family':
+        num += 1
+
+for i in range(num):
+    ticketsWanted.remove(ticketsWanted[-1])
+
+ticketsWanted.append('Group')
+sizeOfGroup = num
+
+
 # TODO use the num of adults, children and seniors in the first loop to add attraction prices for family tickets
 # TODO global num of adults, children and seniors in group to then add cost as group tickets but then remove them from the ticketsWanted list before second cost loop runs
     # numOfPeople = adults + children + seniors
 # TODO add to the algorithm to take all remaining tickets and just turn them into group if possible? may be the best way to do this, or at least get close, but does not offer absolute best prices.
+# TODO add prices of attraction BEFORE sorting algorithm or by using adult, child and senior ticket numbers
 
 totalCost = 0
 for ticket in ticketsWanted:
@@ -315,13 +325,6 @@ if numOfPeopleInFamily:
     for person in range(numOfPeopleInFamily):
         for attraction in attractionsWanted:
             totalCost += attPrices[attractions.index(attraction)]
-
-if numOfPeople:
-    ticketsWanted.append('Group')
-    if numOfDays == 1:
-        totalCost += 15*numOfPeople
-    if numOfDays == 2:
-        totalCost += 22.5*numOfPeople
 
 if validOrder:
     bookingNum = randint(0, 9999)
