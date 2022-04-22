@@ -344,3 +344,5 @@ else:
     print('This booking is invalid. Please retry your booking.')
 
 # TODO add attraction prices accordingly (per person)
+
+# TODO - the task 3 algorithm doesnt work properly, not adding family tickets with 20 adults and 5 kids even though it should probably add one, print ticketsWanted at different points to see whats happening 
