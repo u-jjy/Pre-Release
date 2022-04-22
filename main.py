@@ -229,6 +229,10 @@ if childCount > 2*(adultCount+seniorCount):
     print('Too many children tickets for adult tickets. An adult may bring up to two children.')
     validOrder = False
 
+for ticket in ticketsWanted:
+    for attraction in attractionsWanted:
+        totalCost += attPrices[attractions.index(attraction)]
+
 for i in range(floor(adultCount/2)):
     while childCount >= 2:
         adultCount -= 2
@@ -315,16 +319,14 @@ sizeOfGroup = num
 # TODO add to the algorithm to take all remaining tickets and just turn them into group if possible? may be the best way to do this, or at least get close, but does not offer absolute best prices.
 # TODO add prices of attraction BEFORE sorting algorithm or by using adult, child and senior ticket numbers
 
-totalCost = 0
 for ticket in ticketsWanted:
-    totalCost += ticketPrices[tickets.index(ticket)][numOfDays - 1]
-    if ticket != 'Family':
-        for attraction in attractionsWanted:
-            totalCost += attPrices[attractions.index(attraction)]
-if numOfPeopleInFamily:
-    for person in range(numOfPeopleInFamily):
-        for attraction in attractionsWanted:
-            totalCost += attPrices[attractions.index(attraction)]
+    if ticket != 'Group':
+        totalCost += ticketPrices[tickets.index(ticket)][numOfDays - 1]
+    elif ticket == 'Group':
+        if numOfDays == 1:
+            totalCost += 15 * num
+        elif numOfDays == 2:
+            totalCost += 22.5 * num
 
 if validOrder:
     bookingNum = randint(0, 9999)
