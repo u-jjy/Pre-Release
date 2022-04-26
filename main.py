@@ -215,7 +215,12 @@ while not attractionsDone and wantsAttractions:
     isDone = None
     while not isDone:
         isDone = input('Would you like to purchase any more attractions? (Y/N)\n')
-        if isDone.lower() != 'y' and isDone.lower() != 'n':
+        isDone = isDone.lower()
+        if isDone == 'yes':
+            isDone = 'y'
+        if isDone == 'no':
+            isDone = 'n'
+        if isDone != 'y' and isDone != 'n':
             print("Please enter either 'Y' or 'N'.")
             isDone = None
         if isDone.lower() == 'n':
