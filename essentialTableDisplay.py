@@ -2,7 +2,7 @@
 tickets = ['One adult', 'One child', 'One senior', 'For Family', 'Six or more']
 attractions = ['Lion feeding', 'Penguin feeding', 'Night Barbecue (2 day tickets only)']
 oneDayPrices = [20, 12, 16, 60, 15]
-twoDayPrices = [30, 18, 24, 90, 22]
+twoDayPrices = [30, 18, 24, 90, 22.5]
 attractionPrices = [2.5, 2, 5]
 
 

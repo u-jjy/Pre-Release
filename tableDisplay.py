@@ -1,7 +1,7 @@
 tickets = ['One adult', 'One child', 'One senior', 'Family', 'Group']
 attractions = ['Lion feeding', 'Penguin feeding', 'Evening BBQ']
 ticketsStripped = ['oneadult', 'onechild', 'onesenior', 'forfamily', 'sixormore']
-ticketPrices = [[20, 30], [12, 18], [16, 24], [60, 90], [15, 22]]
+ticketPrices = [[20, 30], [12, 18], [16, 24], [60, 90], [15, 22.5]]
 attractionsStripped = ['lion feeding', 'penguin feeding', 'night barbecue']
 attractionPrices = [2.5, 2, 5]
 items = []
@@ -12,8 +12,9 @@ def displayTickets():
     print('\n' + '-' * 78 + '\n|\t\tTicket Types\t\t|\tCost for one day\t|\tCost for two days\t|\n' + '-' * 78)
     for i in range(3):
         print('|\t\t' + tickets[i] + '\t\t\t|\t\t\t$' + str(ticketPrices[i][0]) + '\t\t\t|\t\t\t$' + str(ticketPrices[i][1]) + '\t\t\t|\n' + '-' * 78)
-    for i in range(3, 5):
+    for i in range(3, 4):
         print('|\t\t' + tickets[i] + '\t\t\t\t|\t\t\t$' + str(ticketPrices[i][0]) + '\t\t\t|\t\t\t$' + str(ticketPrices[i][1]) + '\t\t\t|\n' + '-' * 78)
+    print('|\t\t' + tickets[4] + '\t\t\t\t|\t\t\t$' + str(ticketPrices[4][0]) + '\t\t\t|\t\t\t$' + str(ticketPrices[4][1]) + '\t\t|\n' + '-' * 78)
 
 
 def displayAttractions():

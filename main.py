@@ -5,7 +5,8 @@ from math import floor
 
 tickets = ['One adult', 'One child', 'One senior', 'Family', 'Group']
 attractions = ['Lion feeding', 'Penguin feeding', 'Evening BBQ']
-validTickets = ['one adult', 'adult', 'one child', 'child' 'one senior', 'senior', 'family', 'group']
+validTicketsAll = ['one adult', 'adult', 'one child', 'child' 'one senior', 'senior', 'family', 'group']
+validTicketsDisplay = ['one adult', 'one child', 'one senior', 'family', 'group']
 validAttractions = ['lion feeding', 'penguin feeding', 'evening bbq']
 ticketPrices = [[20, 30], [12, 18], [16, 24], [60, 90], [15, 22.5]]
 attPrices = [2.5, 2, 5]
@@ -39,7 +40,7 @@ while not Done:
     while not ticket1:
         ticket1 = input('Which ticket would you like?\n')
         ticket1 = ticket1.lower()
-        if ticket1 not in validTickets:
+        if ticket1 not in validTicketsAll:
             ticket1 = None
             print('That was not a valid ticket, please try again.')
 
@@ -58,7 +59,7 @@ while not Done:
             except ValueError:
                 amount = None
                 print("Please enter an integer value, eg. '1'")
-        ticket1 = tickets[validTickets.index(ticket1)]
+        ticket1 = tickets[validTicketsDisplay.index(ticket1)]
         for i in range(amount):
             ticketsWanted.append(ticket1)
 
@@ -191,18 +192,25 @@ attractionsDone = False
 while not attractionsDone and wantsAttractions:
     att1 = None
     while not att1:
-        att1 = input('Which attraction would you like?\n')
+        att1 = input("Which attraction would you like? Type 'None' for no attraction.\n")
         att1 = att1.lower()
-        if att1 not in validAttractions:
+        if att1 not in validAttractions and att1 != 'none':
             att1 = None
             print('Try again')
-        if numOfDays == '1' and att1 == 'evening bbq':
+        elif att1 in validAttractions:
+            att1 = attractions[validAttractions.index(att1)]
+        if numOfDays == 1 and att1 == 'Evening BBQ':
+            att1 = None
             print('You cannot purchase the evening BBQ for 1 day tickets.')
         if att1 in attractionsWanted:
+            att1 = None
             print('Cannot have 2 of the same attractions. Please try again.')
+        if att1 == 'None':
+            att1 = None
+            break
 
-    att1 = attractions[validAttractions.index(att1)]
-    attractionsWanted.append(att1)
+    if att1 is not None and att1 != 'none':
+        attractionsWanted.append(att1)
 
     isDone = None
     while not isDone:
@@ -301,23 +309,17 @@ for i in range(floor(seniorCount/2)):
 
         ticketsWanted.append('Family')
 
+
 num = 0
 for ticket in ticketsWanted:
     if ticket != 'Family':
         num += 1
 
 for i in range(num):
-    ticketsWanted.remove(ticketsWanted[-1])
+    ticketsWanted.remove(ticketsWanted[0])
 
 ticketsWanted.append('Group')
 sizeOfGroup = num
-
-
-# TODO use the num of adults, children and seniors in the first loop to add attraction prices for family tickets
-# TODO global num of adults, children and seniors in group to then add cost as group tickets but then remove them from the ticketsWanted list before second cost loop runs
-    # numOfPeople = adults + children + seniors
-# TODO add to the algorithm to take all remaining tickets and just turn them into group if possible? may be the best way to do this, or at least get close, but does not offer absolute best prices.
-# TODO add prices of attraction BEFORE sorting algorithm or by using adult, child and senior ticket numbers
 
 for ticket in ticketsWanted:
     if ticket != 'Group':
@@ -332,7 +334,10 @@ if validOrder:
     bookingNum = randint(0, 9999)
     print('The tickets in your basket:')
     for ticket in ticketsWanted:
-        print(ticket)
+        if ticket == 'Group':
+            print(ticket, f'({num} people).')
+        else:
+            print(ticket)
     if len(attractionsWanted) >= 1:
         print('\nThe attractions you have booked for these tickets:')
         for attraction in attractionsWanted:
@@ -342,7 +347,3 @@ if validOrder:
 
 else:
     print('This booking is invalid. Please retry your booking.')
-
-# TODO add attraction prices accordingly (per person)
-
-# TODO - the task 3 algorithm doesnt work properly, not adding family tickets with 20 adults and 5 kids even though it should probably add one, print ticketsWanted at different points to see whats happening 
