@@ -31,6 +31,3 @@ def displayAttractions():
             print('-' * 48)
     print('|\t\t' + attractions[2] + '\t\t\t|\t\t$' + str(attractionPrices[2]) + '\t\t\t|')
     print('-' * 48)
-
-displayTickets()
-displayAttractions()
