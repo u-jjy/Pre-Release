@@ -2,17 +2,21 @@
 from tableDisplay import displayTickets
 from tableDisplay import displayAttractions
 
+from familyTicket import purchaseFamilyTicket
+from groupTicket import purchaseGroupTicket
+
 # Importing mathematical functions
 from math import floor
-from random import randint
+from random import choice
+from string import digits
+from string import ascii_letters
 
 # Declaring all variables storing the different tickets, attractions and their prices.
 tickets = ['One adult', 'One child', 'One senior', 'Family', 'Group']
 attractions = ['Lion feeding', 'Penguin feeding', 'Evening BBQ']
 # Lowercase names of tickets and attractions for validation
-validTicketsAll = ['one adult', 'adult', 'one child', 'child' 'one senior', 'senior', 'family', 'group']
-validTicketsDisplay = ['one adult', 'one child', 'one senior', 'family',
-                       'group']  # If the user types; 'adult', 'child' or 'senior', converted to these.
+validTicketsAll = ['one adult', 'adult', 'one child', 'child', 'one senior', 'senior', 'family', 'group']
+validTicketsDisplay = ['one adult', 'one child', 'one senior', 'family', 'group']  # If the user types; 'adult', 'child' or 'senior', converted to these.
 validAttractions = ['lion feeding', 'penguin feeding', 'evening bbq']
 # Prices for tickets stored in a matrix, 1 day then 2 days. List within lists.
 ticketPrices = [[20, 30], [12, 18], [16, 24], [60, 90], [15, 22.5]]
@@ -22,153 +26,6 @@ attPrices = [2.5, 2, 5]
 ticketsWanted = []
 attractionsWanted = []
 totalCost = 0
-
-
-# Function used when user wants to purchase family ticket
-def purchaseFamilyTicket():
-    # Declaring variables for how many of each ticket type are part of the family combo
-    numOfAdultsInFamily = None
-    numOfSeniorsInFamily = None
-    numOfChildrenInFamily = None
-
-    # Loop to ask user how many adults they would like in the family combo
-    while numOfAdultsInFamily is None:
-        # Try and except to turn input into number value
-        try:
-            numOfAdultsInFamily = int(
-                input('How many adults will be part of this ticket? Note - This does not mean seniors\n'))
-        except ValueError:
-            numOfAdultsInFamily = None
-            print('Please enter an integer value.')
-
-        # Validating minimum and maximum
-        if numOfAdultsInFamily > 2 or numOfAdultsInFamily < 0:
-            numOfAdultsInFamily = None
-            print('You can have a minimum of 0 and a maximum of 2 adult members.')
-
-    # Loop to as user how many seniors they would like in the family combo
-    while numOfSeniorsInFamily is None:
-        # Try and except to turn input into number value
-        try:
-            numOfSeniorsInFamily = int(input('How many seniors will be part of this ticket?\n'))
-        except ValueError:
-            numOfSeniorsInFamily = None
-            print('Please enter an integer value.')
-
-        # Validating to see if they have too many people over 18 or too few, (need to have either 1 or 2 legal adults)
-        if numOfSeniorsInFamily + numOfAdultsInFamily > 2 or numOfSeniorsInFamily + numOfAdultsInFamily < 1:
-            numOfSeniorsInFamily = None
-            print('Your adult + senior members must total to either 1 or 2. No more, no less.')
-
-        # Validating minimum and maximum
-        elif numOfSeniorsInFamily > 2 or numOfSeniorsInFamily < 0:
-            numOfSeniorsInFamily = None
-            print('You can have a minimum of 0 and a maximum of 2 senior members.')
-
-    # Loop to as user how many children they would like in the family combo
-    while numOfChildrenInFamily is None:
-        try:
-            numOfChildrenInFamily = int(input('How many children will be part of this ticket?\n'))
-        except ValueError:
-            numOfChildrenInFamily = None
-            print('Please enter an integer value.')
-
-        # Validating minimum and maximum
-        if numOfChildrenInFamily > 3 or numOfChildrenInFamily < 0:
-            numOfChildrenInFamily = None
-            print('You can have a minimum of 0 and a maximum of 3 child members.')
-
-    # Note - the family ticket is not directly added.
-    # Instead, the task 3 algorithm at the end of the program is responsible for deciding what is the best value and
-    # providing family tickets depending on all the independent tickets in the shopping cart, (ticketsWanted).
-
-    # Adding each ticket type depending on how many the user said they want
-    for i in range(numOfAdultsInFamily):
-        ticketsWanted.append('One adult')
-    for i in range(numOfSeniorsInFamily):
-        ticketsWanted.append('One senior')
-    for i in range(numOfChildrenInFamily):
-        ticketsWanted.append('One child')
-
-
-# Function used when user wants to purchase group ticket
-def purchaseGroupTicket():
-    # Variable to check if user has bought a valid group ticket
-    groupDone = False
-    # Declaring variables for how many of each ticket type are part of the group combo
-    numOfAdultsInGroup = None
-    numOfSeniorsInGroup = None
-    numOfChildrenInGroup = None
-
-    # Loop that runs until valid group ticket is bought, (6 or more people)
-    while not groupDone:
-
-        # Loop to ask user how many adults they would like in the group combo
-        while numOfAdultsInGroup is None:
-            # Try and except to turn input into number value
-            try:
-                numOfAdultsInGroup = int(
-                    input('How many adults will be part of this ticket? Note - This does not mean seniors\n'))
-            except ValueError:
-                numOfAdultsInGroup = None
-                print('Please enter a positive integer value.')
-
-            # Cannot have less than 0 adults
-            if numOfAdultsInGroup < 0:
-                numOfAdultsInGroup = None
-                print('You cannot have less than 0 adults. Please enter a positive integer.')
-
-        # Loop to ask user how many seniors they would like in the group combo
-        while numOfSeniorsInGroup is None:
-            # Try and except to turn input into number value
-            try:
-                numOfSeniorsInGroup = int(input('How many seniors will be part of this ticket?\n'))
-            except ValueError:
-                numOfSeniorsInGroup = None
-                print('Please enter a positive integer value.')
-
-            # Cannot have less than 0 seniors
-            if numOfSeniorsInGroup < 0:
-                numOfSeniorsInGroup = None
-                print('You cannot have less than 0 seniors. Please enter a positive integer.')
-
-        # Loop to ask user how many children they would like in the group combo
-        while numOfChildrenInGroup is None:
-            # Try and except to turn input into number value
-            try:
-                numOfChildrenInGroup = int(input('How many children will be part of this ticket?\n'))
-            except ValueError:
-                numOfChildrenInGroup = None
-                print('Please enter a positive integer value.')
-
-            # Cannot have less than 0 children
-            if numOfChildrenInGroup < 0:
-                numOfChildrenInGroup = None
-                print('You cannot have less than 0 children. Please enter a positive integer.')
-
-        # Validating group ticket: Must be at least 6 people when adding adults, children and seniors.
-        numOfPeople = numOfAdultsInGroup + numOfSeniorsInGroup + numOfChildrenInGroup  # Total people in group
-
-        # If less than 6, invalid.
-        if numOfPeople < 6:
-            numOfAdultsInGroup = None
-            numOfSeniorsInGroup = None
-            numOfChildrenInGroup = None
-            print('This group ticket is not valid, please try again.')
-            groupDone = False  # Restarts purchase of group ticket
-
-        # If valid
-        else:
-            # Adds each individual ticket to shopping cart to be sorted later.
-            for i in range(numOfAdultsInGroup):
-                ticketsWanted.append('One adult')
-            for i in range(numOfSeniorsInGroup):
-                ticketsWanted.append('One senior')
-            for i in range(numOfChildrenInGroup):
-                ticketsWanted.append('One child')
-                groupDone = True  # Ends loop, group ticket purchased.
-
-            # Note - this group ticket may become a family ticket if it is deemed a better value.
 
 
 # Asking user for the number of days they want their ticket to be for.
@@ -257,9 +114,8 @@ while not ticketBookingDone:
 
 # Asking user if they want to add attractions to their booking
 wantsAttractions = None
-while not wantsAttractions:
-    wantsAttractions = input(
-        'Would you like to add attractions to your cart (Y/N)? Note - this applies to all tickets chosen\n')
+while wantsAttractions is None:
+    wantsAttractions = input('Would you like to add attractions to your cart (Y/N)? Note - this applies to all tickets chosen\n')
     wantsAttractions = wantsAttractions.lower() # Lowering all letters for validation
 
     # Accounting for full inputs of 'yes' or 'no'
@@ -282,7 +138,7 @@ while not wantsAttractions:
 
 
 attractionsDone = False # Variable for whether or not loop should repeat, (repeats if user wants several attractions)
-while not attractionsDone and wantsAttractions: # Only runs if user previously said they want attractions
+while not attractionsDone and wantsAttractions is True: # Only runs if user previously said they want attractions
     displayAttractions() # Displays table for attractions from external file
 
     # Asking user which attraction they would like
@@ -414,11 +270,12 @@ for ticket in ticketsWanted:
     if ticket != 'Family':
         num += 1
 
-for i in range(num):
-    ticketsWanted.remove(ticketsWanted[0])
+if num >= 6:
+    for i in range(num):
+        ticketsWanted.remove(ticketsWanted[0])
 
-ticketsWanted.append('Group')
-sizeOfGroup = num
+    ticketsWanted.append('Group')
+    sizeOfGroup = num
 
 for ticket in ticketsWanted:
     if ticket != 'Group':
@@ -430,7 +287,7 @@ for ticket in ticketsWanted:
             totalCost += 22.5 * num
 
 if validOrder:
-    bookingNum = randint(0, 9999)
+    bookingNum = ''.join([choice(ascii_letters + digits) for n in range(6)])
     print('The tickets in your basket:')
     for ticket in ticketsWanted:
         if ticket == 'Group':
